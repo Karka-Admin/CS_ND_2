@@ -1,0 +1,66 @@
+[gd_scene load_steps=8 format=3 uid="uid://bg68bokfd1ijj"]
+
+[ext_resource type="Script" path="res://Scripts/GameManager.cs" id="1_d6toh"]
+[ext_resource type="PackedScene" uid="uid://ev8dqpcc3hqg" path="res://Scenes/Bird.tscn" id="2_ps6va"]
+[ext_resource type="PackedScene" uid="uid://cxbpbpabtko4e" path="res://Scenes/WallObject.tscn" id="4_e1m7w"]
+[ext_resource type="Script" path="res://Scripts/WallManager.cs" id="4_mdgve"]
+[ext_resource type="Script" path="res://Scripts/CameraManager.cs" id="5_r7sgg"]
+[ext_resource type="Script" path="res://Scripts/UiController.cs" id="6_3fj5b"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_chuyp"]
+font_size = 32
+
+[node name="GameManager" type="Node2D"]
+script = ExtResource("1_d6toh")
+
+[node name="Bird" parent="." instance=ExtResource("2_ps6va")]
+position = Vector2(0, 200)
+
+[node name="WallManager" type="Node2D" parent="." node_paths=PackedStringArray("Bird")]
+script = ExtResource("4_mdgve")
+WallObjectScene = ExtResource("4_e1m7w")
+Bird = NodePath("../Bird")
+
+[node name="CameraManager" type="Node2D" parent="." node_paths=PackedStringArray("bird", "camera2D")]
+script = ExtResource("5_r7sgg")
+bird = NodePath("../Bird")
+camera2D = NodePath("Camera2D")
+
+[node name="Camera2D" type="Camera2D" parent="CameraManager"]
+position = Vector2(0, 400)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="UIController" type="Control" parent="CanvasLayer" node_paths=PackedStringArray("ScoreLabelReference", "DebugLabel", "Bird")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("6_3fj5b")
+ScoreLabelReference = NodePath("ScoreLabel")
+DebugLabel = NodePath("DebugLabel")
+Bird = NodePath("../../Bird")
+
+[node name="ScoreLabel" type="Label" parent="CanvasLayer/UIController"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.05
+anchor_right = 1.0
+anchor_bottom = 0.05
+offset_bottom = 23.0
+grow_horizontal = 2
+text = "0"
+label_settings = SubResource("LabelSettings_chuyp")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DebugLabel" type="Label" parent="CanvasLayer/UIController"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -23.0
+offset_right = 40.0
+grow_vertical = 0

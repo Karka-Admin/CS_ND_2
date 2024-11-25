@@ -1,0 +1,48 @@
+[gd_scene load_steps=7 format=3 uid="uid://cxbpbpabtko4e"]
+
+[ext_resource type="Script" path="res://Scripts/WallObject.cs" id="1_w2nh4"]
+[ext_resource type="PackedScene" uid="uid://kn6u8c3ysm78" path="res://Scenes/DeadZoneComponent.tscn" id="2_p0hvk"]
+[ext_resource type="Texture2D" uid="uid://bugni8q2r2yee" path="res://Assets/Textures/prototype-square-256x.png" id="2_pbq3l"]
+[ext_resource type="Script" path="res://Scripts/ScoreArea.cs" id="4_cfv2c"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_w1iwb"]
+size = Vector2(64, 1280)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2p2sy"]
+size = Vector2(20, 220)
+
+[node name="Wall" type="Node2D"]
+script = ExtResource("1_w2nh4")
+metadata/_edit_group_ = true
+
+[node name="BottomSprite" type="Sprite2D" parent="."]
+modulate = Color(0.262745, 0.054902, 0.0313726, 1)
+position = Vector2(-7.62939e-06, 725)
+scale = Vector2(0.25, 5)
+texture = ExtResource("2_pbq3l")
+
+[node name="ToppomSprite" type="Sprite2D" parent="."]
+modulate = Color(0.262745, 0.054902, 0.0313726, 1)
+position = Vector2(0, -725)
+scale = Vector2(0.25, 5)
+texture = ExtResource("2_pbq3l")
+
+[node name="DeadZoneComponent" parent="." instance=ExtResource("2_p0hvk")]
+position = Vector2(0, 725)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DeadZoneComponent"]
+shape = SubResource("RectangleShape2D_w1iwb")
+debug_color = Color(1, 0, 0, 0.419608)
+
+[node name="DeadZoneComponent2" parent="." instance=ExtResource("2_p0hvk")]
+position = Vector2(0, -725)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DeadZoneComponent2"]
+shape = SubResource("RectangleShape2D_w1iwb")
+debug_color = Color(1, 0, 0, 0.419608)
+
+[node name="Area2D" type="Area2D" parent="."]
+script = ExtResource("4_cfv2c")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_2p2sy")
